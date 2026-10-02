@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外部網站 - DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #34d399;
+        }
+        nav a.active {
+            color: #34d399;
+            font-weight: 600;
+        }
+        /* 內部系統按鈕樣式 */
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        /* 主體內容：恢復原本外部網站風格 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 36px;
+        }
+        .page-header h2 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 32px 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background-color: #059669;
+            border-radius: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+        .card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.08);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .card-icon { font-size: 24px; }
+        .external-tag {
+            font-size: 11px;
+            background-color: #f1f5f9;
+            color: #64748b;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .card h3 { font-size: 16px; font-weight: bold; color: #0f172a; margin-bottom: 6px; }
+        .card p { font-size: 13px; color: #64748b; line-height: 1.5; word-break: break-all; }
+        .card-footer {
+            margin-top: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列：已加入案件進度 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html">案件作業系統</a>
+                <a href="progress.html">案件進度</a>
+                <a href="projects.html">基本資料</a>
+                <a href="templates.html">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html" class="active">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <div class="page-header">
+            <h2>外部網站</h2>
+            <p>收錄審查單位、核心法規與測繪資源等外部工作參考網站。</p>
+        </div>
+
+        <!-- 1. 審查單位 -->
+        <div class="section-title">1. 審查單位</div>
+        <div class="grid">
+            <a href="https://www.tabc.org.tw/tw/" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🏛️</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>財團法人台灣建築中心</h3>
+                    <p>https://www.tabc.org.tw/tw/</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://sso.tabc.org.tw/#/login" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🔑</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>財團法人台灣建築中心單一資訊入口平台</h3>
+                    <p>https://sso.tabc.org.tw/#/login</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://www.cfs.org.tw/" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🚒</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>財團法人消防安全中心基金會</h3>
+                    <p>https://www.cfs.org.tw/</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+        </div>
+
+        <!-- 2. 法規 -->
+        <div class="section-title">2. 法規</div>
+        <div class="grid">
+            <a href="https://law.moj.gov.tw/" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">⚖️</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>全國法規資料庫</h3>
+                    <p>https://law.moj.gov.tw/</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070115" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">📑</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>建築技術規則建築設計施工編</h3>
+                    <p>https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070115</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0120029&kw=%e5%90%84%e9%a1%9e%e5%a0%b4%e6%89%80%e6%b6%88%e9%98%b2%e5%ae%89%e5%85%a8%e8%a8%ad%e5%82%99%e8%a8%ad%e7%bd%ae%e6%a8%99%e6%ba%96" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🧯</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>各類場所消防安全設備設置標準</h3>
+                    <p>https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0120029...</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://glrs.moi.gov.tw/LawContent.aspx?id=FL032182" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">📋</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>建築物防火避難性能設計計畫書申請認可要點</h3>
+                    <p>https://glrs.moi.gov.tw/LawContent.aspx?id=FL032182</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+        </div>
+
+        <!-- 3. 工具 -->
+        <div class="section-title">3. 工具</div>
+        <div class="grid">
+            <a href="https://easymap.moi.gov.tw/Z10Web/Index" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🗺️</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>地籍圖資網路便民服務系統</h3>
+                    <p>https://easymap.moi.gov.tw/Z10Web/Index</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+
+            <a href="https://maps.nlsc.gov.tw/" target="_blank" class="card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">📍</span>
+                        <span class="external-tag">外部連結 ↗</span>
+                    </div>
+                    <h3>國土測繪服務</h3>
+                    <p>https://maps.nlsc.gov.tw/</p>
+                </div>
+                <div class="card-footer">前往網站 &rarr;</div>
+            </a>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+</body>
+</html>

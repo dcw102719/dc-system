@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #34d399; }
+        nav a.active { color: #34d399; font-weight: 600; }
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* 主體內容 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 64px 24px;
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+        .hero-desc {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin-bottom: 36px;
+            line-height: 1.6;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+        .quick-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .quick-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+            border-color: #059669;
+        }
+        .quick-card-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .quick-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .quick-card p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html">案件作業系統</a>
+                <a href="progress.html">案件進度</a>
+                <a href="projects.html">基本資料</a>
+                <a href="templates.html">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <h2 class="hero-title">歡迎使用 DC 專屬工程作業系統</h2>
+        <p class="hero-desc">整合防火避難綜合檢討、自動化試算、送審規範與各項工程實務工具的高效平台。</p>
+
+        <div class="quick-links">
+            <a href="workspace.html" class="quick-card">
+                <div class="quick-card-icon">📂</div>
+                <h3>案件作業系統</h3>
+                <p>執行專案、前提條件與自動化試算</p>
+            </a>
+            <a href="progress.html" class="quick-card">
+                <div class="quick-card-icon">📊</div>
+                <h3>案件進度</h3>
+                <p>掌握審查階段與專案追蹤狀態</p>
+            </a>
+            <a href="projects.html" class="quick-card">
+                <div class="quick-card-icon">📋</div>
+                <h3>基本資料</h3>
+                <p>檢視送審規範、SOP 與軟體工具</p>
+            </a>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+</body>
+</html>

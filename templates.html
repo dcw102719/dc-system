@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公版下載 - DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #34d399; }
+        nav a.active { color: #34d399; font-weight: 600; }
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* 主體內容 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 36px;
+        }
+        .page-header h2 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* 分類區塊樣式 */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 36px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #64748b;
+        }
+
+        /* 檔案卡片網格 */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .template-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .file-badge {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .file-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .btn-download {
+            background-color: #059669;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            display: block;
+        }
+        .btn-download:hover {
+            background-color: #047857;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html">案件作業系統</a>
+                <a href="progress.html">案件進度</a>
+                <a href="projects.html">基本資料</a>
+                <a href="templates.html" class="active">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <div class="page-header">
+            <h2>公版文件下載</h2>
+            <p>提供各類標準申請書、檢討報告與表格範本，點擊即可直接下載使用。</p>
+        </div>
+
+        <!-- 類別一：建築中心 -->
+        <div class="section-title">建築中心 <span>Building Center Templates</span></div>
+        <div class="template-grid">
+            
+            <!-- 1. 新案 防綜案 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOC</div>
+                    <div class="file-info">
+                        <h3>建築中心 - 新案申請書-防綜案</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_3" class="btn-download">下載檔案</a>
+            </div>
+
+            <!-- 2. 新案 性能案 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOC</div>
+                    <div class="file-info">
+                        <h3>建築中心 - 新案申請書-性能案</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_4" class="btn-download">下載檔案</a>
+            </div>
+
+            <!-- 3. 使照 防綜案 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOC</div>
+                    <div class="file-info">
+                        <h3>建築中心 - 使照階段變更申請書-防綜案</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=1sydEVVIA3HlqxesvvePAK03lRXWnf5MV" class="btn-download">下載檔案</a>
+            </div>
+
+            <!-- 4. 使照 性能案 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOC</div>
+                    <div class="file-info">
+                        <h3>建築中心 - 使照階段變更申請書-性能案</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=1YuGtJsfy6tNn34VvNCfuoPrpGVY2PmtL" class="btn-download">下載檔案</a>
+            </div>
+
+        </div>
+
+        <!-- 類別二：基金會 -->
+        <div class="section-title">基金會 <span>Foundation Templates</span></div>
+        <div class="template-grid">
+            
+            <!-- 1. 基金會 新案 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOC</div>
+                    <div class="file-info">
+                        <h3>基金會 - 新案申請書</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_7" class="btn-download">下載檔案</a>
+            </div>
+
+            <!-- 2. 基金會 建照 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOCX</div>
+                    <div class="file-info">
+                        <h3>基金會 - 建照階段變更申請書</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_6" class="btn-download">下載檔案</a>
+            </div>
+
+            <!-- 3. 基金會 使照 -->
+            <div class="template-card">
+                <div class="card-top">
+                    <div class="file-badge">DOCX</div>
+                    <div class="file-info">
+                        <h3>基金會 - 使照階段變更申請書</h3>
+                    </div>
+                </div>
+                <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_5" class="btn-download">下載檔案</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+</body>
+</html>

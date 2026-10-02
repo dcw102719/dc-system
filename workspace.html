@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案件作業系統 - DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #34d399; }
+        nav a.active { color: #34d399; font-weight: 600; }
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* 主體內容 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .btn-primary {
+            background-color: #059669;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary:hover { background-color: #047857; }
+
+        /* 功能點選卡片區塊 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .tool-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+        .tool-card:hover {
+            border-color: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(5, 150, 105, 0.08);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .card-icon { font-size: 24px; }
+        .external-tag {
+            font-size: 11px;
+            background-color: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tool-card h3 { font-size: 16px; font-weight: bold; color: #0f172a; margin-bottom: 6px; }
+        .tool-card p { font-size: 13px; color: #64748b; line-height: 1.5; word-break: break-all; }
+        .card-footer {
+            margin-top: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 案件列表表格或卡片區塊 */
+        .workspace-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 64px 20px;
+            color: #64748b;
+        }
+        .empty-state div {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html" class="active">案件作業系統</a>
+                <a href="progress.html">案件進度</a>
+                <a href="projects.html">基本資料</a>
+                <a href="templates.html">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <div class="page-header">
+            <div>
+                <h2>案件作業系統</h2>
+                <p>管理與執行防火避難綜合檢討專案、自動化試算與報告書生成。</p>
+            </div>
+            <a href="new-project.html" class="btn-primary">＋ 建立新案件</a>
+        </div>
+
+        <!-- 新增：快捷系統功能卡片 -->
+        <div class="tools-grid">
+            <!-- 功能 1：意見回覆簡報 產生器 -->
+            <a href="http://192.168.88.120:8899/" target="_blank" class="tool-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">📊</span>
+                        <span class="external-tag">系統工具 ↗</span>
+                    </div>
+                    <h3>意見回覆簡報 產生器</h3>
+                    <p>http://192.168.88.120:8899/</p>
+                </div>
+                <div class="card-footer">開啟系統平台 &rarr;</div>
+            </a>
+
+            <!-- 功能 2：防火避難簡易二層 - 遠端自動化控制台 -->
+            <a href="http://192.168.88.30:5000/" target="_blank" class="tool-card">
+                <div>
+                    <div class="card-top">
+                        <span class="card-icon">🖥️</span>
+                        <span class="external-tag">控制台 ↗</span>
+                    </div>
+                    <h3>防火避難簡易二層 - 遠端自動化控制台</h3>
+                    <p>http://192.168.88.30:5000/</p>
+                </div>
+                <div class="card-footer">開啟控制台 &rarr;</div>
+            </a>
+        </div>
+
+        <div class="workspace-card">
+            <!-- 目前為基本畫面，後續可在此動態載入案件列表或表格 -->
+            <div class="empty-state">
+                <div>📂</div>
+                <h3>目前尚無作用中的案件</h3>
+                <p>點擊上方「建立新案件」開始進行前提條件表上傳與自動化流程。</p>
+                <a href="new-project.html" class="btn-primary" style="display: inline-flex;">立即建立新案件</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+</body>
+</html>

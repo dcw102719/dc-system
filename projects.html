@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本資料與送審流程 - DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #34d399; }
+        nav a.active { color: #34d399; font-weight: 600; }
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* 主體內容 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .page-header h2 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* 返回按鈕 */
+        .btn-back {
+            background-color: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-back:hover { background-color: #cbd5e1; }
+
+        /* 五大分類首頁卡片網格 */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .category-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+            border-color: #059669;
+        }
+        .category-icon {
+            width: 56px;
+            height: 56px;
+            background: #ecfdf5;
+            color: #059669;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+            border: 1px solid #a7f3d0;
+        }
+        .category-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .category-card p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* 內容檔案列表區塊 */
+        .content-section {
+            display: none;
+        }
+
+        /* 子分類區塊標題 (專門給軟體工具分頁使用) */
+        .sub-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 28px 0 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid #059669;
+            padding-left: 10px;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .template-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .file-badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .file-badge.pdf { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+        .file-badge.doc { background: #ecfdf5; color: #059669; border-color: #a7f3d0; }
+        .file-badge.xls { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+
+        .file-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        .file-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .btn-download {
+            background-color: #059669;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            display: block;
+        }
+        .btn-download:hover { background-color: #047857; }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html">案件作業系統</a>
+                <a href="progress.html">案件進度</a>
+                <a href="projects.html" class="active">基本資料</a>
+                <a href="templates.html">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <div class="page-header">
+            <div>
+                <h2 id="pageTitle">基本資料與送審規範</h2>
+                <p id="pageDesc">請選擇下方分類以檢視對應的規範、表單與作業文件。</p>
+            </div>
+            <button id="backBtn" class="btn-back" onclick="goBackToMain()">← 返回分類列表</button>
+        </div>
+
+        <!-- 檢視層級 1：五大分類首頁 -->
+        <div id="mainCategoryView" class="category-grid">
+            <div class="category-card" onclick="openCategory('form')">
+                <div class="category-icon">📁</div>
+                <h3>1. 內部行政與表單下載</h3>
+                <p>請假、加班、簽核與各類行政表單</p>
+            </div>
+            <div class="category-card" onclick="openCategory('review')">
+                <div class="category-icon">📁</div>
+                <h3>2. 標準送審流程與規範</h3>
+                <p>作業流程、審查基礎與評定單位要求</p>
+            </div>
+            <div class="category-card" onclick="openCategory('sop')">
+                <div class="category-icon">📁</div>
+                <h3>3. 防綜 SOP</h3>
+                <p>防火避難綜合檢討標準作業程序</p>
+            </div>
+            <div class="category-card" onclick="openCategory('tools')">
+                <div class="category-icon">📁</div>
+                <h3>4. 軟體工具</h3>
+                <p>文書、AutoCAD、簡易二層與其他工具</p>
+            </div>
+            <div class="category-card" onclick="openCategory('others')">
+                <div class="category-icon">📁</div>
+                <h3>5. 其他</h3>
+                <p>其他相關參考資料與公文格式</p>
+            </div>
+        </div>
+
+        <!-- 檢視層級 2：各分類內容頁面 -->
+
+        <!-- 分類 1：內部行政與表單下載 -->
+        <div id="cat-form" class="content-section">
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>內部簽核單</h3><p>各項專案與行政事項簽呈申請表</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_內部簽核單" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>加班申請單</h3><p>延長工作時間申請與核備表格</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_加班申請單" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>請假單</h3><p>事假、病假、特休等各類假別申請</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_請假單" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>資料外借簽收單</h3><p>公司圖說、檔案或設備外借登記與歸還</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_資料外借簽收單" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>會議記錄及會議資訊表</h3><p>會議討論重點摘要與決議追蹤格式</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_會議記錄" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>員工教育訓練簽到單</h3><p>內部培訓、講座或課程參與簽到紀錄</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_教育訓練簽到單" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge doc">DOC</div><div class="file-info"><h3>掛號信件郵寄地址格式</h3><p>公文信封、掛號及包裹標準書寫格式範本</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_郵寄地址格式" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分類 2：標準送審流程與規範 -->
+        <div id="cat-review" class="content-section">
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge pdf">PDF</div><div class="file-info"><h3>作業流程.pdf</h3><p>專案提送、審查階段與作業程序總覽</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_作業流程" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge pdf">PDF</div><div class="file-info"><h3>防火避難審查兩家評定單位要求.pdf</h3><p>各評定單位送審規範、重點項目與比較說明</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_兩家評定單位要求" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge pdf">PDF</div><div class="file-info"><h3>防火避難審查作業基礎</h3><p>法規依據、核心觀念與基礎審查指南</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_審查作業基礎" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge pdf">PDF</div><div class="file-info"><h3>初階教育訓練</h3><p>新進人員防火避難與送審實務入門教材</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_初階教育訓練" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分類 3：防綜 SOP -->
+        <div id="cat-sop" class="content-section">
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge pdf">PDF</div>
+                        <div class="file-info">
+                            <h3>01-防火區劃作業流程-集合住宅標準層.pdf</h3>
+                            <p>集合住宅標準層防火區劃繪製與檢討作業規範</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_防綜SOP_01" class="btn-download">下載檔案</a>
+                </div>
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge pdf">PDF</div>
+                        <div class="file-info">
+                            <h3>02-評定書摘要製作注意事項.pdf</h3>
+                            <p>評定書摘要編寫要點、格式與常見缺失提醒</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_防綜SOP_02" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分類 4：軟體工具 (四個子分類在同頁顯示) -->
+        <div id="cat-tools" class="content-section">
+            
+            <!-- 分類一：文書工具 -->
+            <div class="sub-section-title">分類一：文書工具</div>
+            <div class="template-grid" style="margin-bottom: 30px;">
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge xls">XLS</div>
+                        <div class="file-info">
+                            <h3>驗證excel</h3>
+                            <p>試算表格式檢核與自動化驗證工具</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_驗證excel" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+
+            <!-- 分類二：AutoCAD -->
+            <div class="sub-section-title">分類二：AutoCAD</div>
+            <div class="template-grid" style="margin-bottom: 30px;">
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge" style="background:#fef3c7; color:#b45309; border-color:#fde68a;">LSP</div>
+                        <div class="file-info">
+                            <h3>AutoLISP 常用自動化腳本集</h3>
+                            <p>圖層設定、字型轉換與避難路徑繪製輔助</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_AutoCAD工具" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+
+            <!-- 分類三：簡易二層 -->
+            <div class="sub-section-title">分類三：簡易二層</div>
+            <div class="template-grid" style="margin-bottom: 30px;">
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge pdf">PDF</div>
+                        <div class="file-info">
+                            <h3>簡易二層基本操作</h3>
+                            <p>簡易二層分析工具快速上手與操作指引</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_簡易二層基本操作" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+
+            <!-- 分類四：其他 -->
+            <div class="sub-section-title">分類四：其他</div>
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="card-top">
+                        <div class="file-badge doc">DOC</div>
+                        <div class="file-info">
+                            <h3>審議會準備清單</h3>
+                            <p>評定審查會前準備文件與攜帶物品檢核表</p>
+                        </div>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_審議會準備清單" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 分類 5：其他 -->
+        <div id="cat-others" class="content-section">
+            <div class="template-grid">
+                <div class="template-card">
+                    <div class="card-top"><div class="file-badge pdf">PDF</div><div class="file-info"><h3>其他相關參考文件</h3><p>未歸類之補充資料與公告事項</p></div></div>
+                    <a href="https://drive.google.com/uc?export=download&id=你的檔案ID_其他" class="btn-download">下載檔案</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+    <!-- 負責分類切換的 JavaScript -->
+    <script>
+        const titles = {
+            'form': { title: '1. 內部行政與表單下載', desc: '請假、加班、簽核與各類行政申請表單' },
+            'review': { title: '2. 標準送審流程與規範', desc: '作業流程、審查基礎與評定單位要求相關規範檔案' },
+            'sop': { title: '3. 防綜 SOP', desc: '防火避難綜合檢討標準作業程序與執行指南' },
+            'tools': { title: '4. 軟體工具', desc: '文書工具、AutoCAD 腳本、簡易二層與其他輔助程式' },
+            'others': { title: '5. 其他', desc: '其他未分類之參考資料與文件' }
+        };
+
+        function openCategory(catKey) {
+            document.getElementById('mainCategoryView').style.display = 'none';
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+            document.getElementById('cat-' + catKey).style.display = 'block';
+
+            document.getElementById('pageTitle').textContent = titles[catKey].title;
+            document.getElementById('pageDesc').textContent = titles[catKey].desc;
+
+            document.getElementById('backBtn').style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBackToMain() {
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+            document.getElementById('mainCategoryView').style.display = 'grid';
+
+            document.getElementById('pageTitle').textContent = '基本資料與送審規範';
+            document.getElementById('pageDesc').textContent = '請選擇下方分類以檢視對應的規範、表單與作業文件。';
+
+            document.getElementById('backBtn').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

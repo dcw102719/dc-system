@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>案件進度 - DC 線上作業系統</title>
+    <style>
+        /* 基礎重置與排版設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* 頂部導覽列：深綠色系 */
+        header {
+            background-color: #06231b;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #34d399;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .logo-text h1 { font-size: 18px; font-weight: bold; color: #ecfdf5; }
+        .logo-text p { font-size: 11px; color: #34d399; }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            align-items: center;
+        }
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #34d399; }
+        nav a.active { color: #34d399; font-weight: 600; }
+        .internal-link {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #34d399 !important;
+            transition: background 0.2s;
+        }
+        .internal-link:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* 主體內容 */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 36px;
+        }
+        .page-header h2 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        .page-header p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* 雙欄版面卡片區 */
+        .progress-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: stretch;
+        }
+        @media (max-width: 768px) {
+            .progress-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .progress-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+        .progress-card:hover {
+            border-color: #059669;
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* 按鈕樣式 */
+        .btn-action {
+            background-color: #059669;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-action:hover {
+            background-color: #047857;
+        }
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        /* LINE QR Code 樣式 */
+        .qr-wrapper {
+            position: relative;
+            display: inline-block;
+            text-decoration: none;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            padding: 12px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            transition: border-color 0.2s;
+        }
+        .qr-wrapper:hover {
+            border-color: #06c755;
+        }
+        .qr-img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            display: block;
+        }
+        .line-btn {
+            background-color: #06c755;
+            color: #ffffff;
+        }
+        .line-btn:hover {
+            background-color: #05b34c;
+        }
+
+        /* 頁尾 */
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-box">DC</div>
+                <div class="logo-text">
+                    <h1>DC 線上作業系統</h1>
+                    <p>Fire Safety & Performance Engineering</p>
+                </div>
+            </a>
+            <nav>
+                <a href="workspace.html">案件作業系統</a>
+                <a href="progress.html" class="active">案件進度</a>
+                <a href="projects.html">基本資料</a>
+                <a href="templates.html">公版下載</a>
+                <a href="tools.html">工具小站</a>
+                <a href="external.html">外部網站</a>
+                <a href="feedback.html">疑慮留言</a>
+                <a href="http://192.168.88.128/inside/main.aspx" target="_blank" class="internal-link">水星內部系統 ↗</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主體內容 -->
+    <main>
+        <div class="page-header">
+            <h2>案件進度管理與即時通知</h2>
+            <p>透過線上進度管理平台追蹤專案狀態，或綁定 LINE 官方機器人獲取最新消息。</p>
+        </div>
+
+        <div class="progress-container">
+            <!-- 左側：進入案件進度管理 -->
+            <div class="progress-card">
+                <div>
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">案件進度管理平台</h3>
+                    <p class="card-desc">點擊下方按鈕即可進入獨立專案進度管理系統，即時檢視所有防火避難檢討案件的審查、提送與完成狀態。</p>
+                </div>
+                <a href="https://dcw102719.github.io/project-management/" target="_blank" class="btn-action">
+                    進入案件進度管理 ↗
+                </a>
+            </div>
+
+            <!-- 右側：LINE 機器人 QR Code -->
+            <div class="progress-card">
+                <div>
+                    <div class="card-icon">🤖</div>
+                    <h3 class="card-title">LINE 機器人即時通知</h3>
+                    <p class="card-desc">掃描下方 QR Code 或直接點擊圖片/按鈕加入 LINE 官方機器人，體驗自動化推播與案件進度查詢。</p>
+                    
+                    <!-- 點擊或掃描均可加入 -->
+                    <a href="https://line.me/R/ti/p/@239uayvl" target="_blank" class="qr-wrapper" title="點擊直接加入 LINE 官方帳號">
+                        <img src="https://qr-official.line.me/gs/M_239uayvl_BW.png?oat_content=qr" alt="LINE Bot QR Code" class="qr-img">
+                    </a>
+                </div>
+                <a href="https://line.me/R/ti/p/@239uayvl" target="_blank" class="btn-action line-btn">
+                    點擊加入 LINE 機器人 💬
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>&copy; 2026 DC Engineering. All Rights Reserved. | 打造專屬您的智慧工程作業系統</p>
+    </footer>
+
+</body>
+</html>
