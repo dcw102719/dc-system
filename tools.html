@@ -127,10 +127,11 @@
             color: #64748b;
         }
 
-        /* 📱 手機版微調：保持原本直排樣式，縮減邊距與間距，整體向左平移收緊 */
+        /* 📱 手機版微調：保持原本橫向並排 + 直排文字風格，縮減間距整體往左靠，讓右側「水星內部系統 ↗」完全容納進螢幕 */
         @media (max-width: 768px) {
             .header-container {
-                padding: 12px 8px;
+                padding: 12px 6px;
+                justify-content: space-between;
             }
             .logo-area {
                 gap: 6px;
@@ -141,17 +142,34 @@
                 font-size: 13px;
             }
             .logo-text h1 {
-                font-size: 14px;
+                font-size: 13px;
+                line-height: 1.2;
             }
             .logo-text p {
-                font-size: 9px;
+                font-size: 8px;
+                line-height: 1.1;
             }
             nav {
-                gap: 6px;
-                font-size: 13px;
+                display: flex;
+                flex-direction: row; /* 強制保持橫向並排 */
+                align-items: center;
+                gap: 4px; /* 大幅縮小連結間距，整體向左收緊 */
+                font-size: 12px;
+            }
+            nav a {
+                width: 1.1em; /* 每行一字，形成直立文字欄 */
+                word-break: break-all;
+                text-align: center;
+                line-height: 1.2;
             }
             .internal-link {
-                padding: 4px 6px;
+                width: auto;
+                max-width: 1.8em;
+                padding: 4px 3px;
+                word-break: break-all;
+                text-align: center;
+                line-height: 1.15;
+                font-size: 11px;
             }
             main {
                 padding: 24px 16px;
