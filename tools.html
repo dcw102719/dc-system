@@ -56,7 +56,7 @@
 
         nav {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             font-size: 14px;
             font-weight: 500;
             align-items: center;
@@ -127,25 +127,31 @@
             color: #64748b;
         }
 
-        /* 📱 手機版：將導覽選單徹底改為垂直單欄直排 (column) */
+        /* 📱 手機版微調：保持原本直排樣式，縮減邊距與間距，整體向左平移收緊 */
         @media (max-width: 768px) {
             .header-container {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 16px;
-                gap: 16px;
+                padding: 12px 8px;
             }
-            nav {
-                flex-direction: column; /* 強制選單垂直直排 */
-                align-items: flex-start;
-                width: 100%;
-                gap: 10px;
+            .logo-area {
+                gap: 6px;
+            }
+            .logo-box {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+            .logo-text h1 {
                 font-size: 14px;
             }
-            nav a {
-                display: block;
-                width: 100%;
-                padding: 4px 0;
+            .logo-text p {
+                font-size: 9px;
+            }
+            nav {
+                gap: 6px;
+                font-size: 13px;
+            }
+            .internal-link {
+                padding: 4px 6px;
             }
             main {
                 padding: 24px 16px;
