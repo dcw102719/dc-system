@@ -127,31 +127,25 @@
             color: #64748b;
         }
 
-        /* 📱 手機版微調：保持原本垂直直排方式，收緊間距避免右側選項溢出螢幕 */
+        /* 📱 手機版：將導覽選單徹底改為垂直單欄直排 (column) */
         @media (max-width: 768px) {
             .header-container {
-                padding: 12px 6px;
-            }
-            .logo-area {
-                gap: 6px;
-            }
-            .logo-box {
-                width: 32px;
-                height: 32px;
-                font-size: 14px;
-            }
-            .logo-text h1 {
-                font-size: 15px;
-            }
-            .logo-text p {
-                font-size: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+                gap: 16px;
             }
             nav {
-                gap: 5px;
-                font-size: 13px;
+                flex-direction: column; /* 強制選單垂直直排 */
+                align-items: flex-start;
+                width: 100%;
+                gap: 10px;
+                font-size: 14px;
             }
-            .internal-link {
-                padding: 4px 5px;
+            nav a {
+                display: block;
+                width: 100%;
+                padding: 4px 0;
             }
             main {
                 padding: 24px 16px;
@@ -169,7 +163,7 @@
     </style>
 </head>
 <body>
-    <!-- 頂部導覽列：已加入案件進度 -->
+    <!-- 頂部導覽列 -->
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-area">
