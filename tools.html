@@ -37,7 +37,6 @@
             gap: 12px;
             text-decoration: none;
             color: inherit;
-            flex-shrink: 0;
         }
         .logo-box {
             width: 40px;
@@ -66,8 +65,6 @@
             color: #cbd5e1;
             text-decoration: none;
             transition: color 0.2s;
-            white-space: nowrap; /* 防止文字垂直斷行 */
-            flex-shrink: 0;
         }
         nav a:hover { color: #34d399; }
         nav a.active { color: #34d399; font-weight: 600; }
@@ -130,28 +127,37 @@
             color: #64748b;
         }
 
-        /* 📱 手機版 RWD 自適應微調 (寬度 768px 以下) */
+        /* 📱 手機版微調：保持原本垂直直排方式，收緊間距避免右側選項溢出螢幕 */
         @media (max-width: 768px) {
             .header-container {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 12px 16px;
-                gap: 12px;
+                padding: 12px 6px;
+            }
+            .logo-area {
+                gap: 6px;
+            }
+            .logo-box {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            .logo-text h1 {
+                font-size: 15px;
+            }
+            .logo-text p {
+                font-size: 10px;
             }
             nav {
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
-                gap: 14px;
-                padding-bottom: 6px;
+                gap: 5px;
                 font-size: 13px;
-                -webkit-overflow-scrolling: touch; /* 滑動平滑感 */
+            }
+            .internal-link {
+                padding: 4px 5px;
             }
             main {
-                padding: 28px 16px;
+                padding: 24px 16px;
             }
             .page-header {
-                margin-bottom: 24px;
+                margin-bottom: 20px;
             }
             .page-header h2 {
                 font-size: 24px;
